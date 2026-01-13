@@ -1,7 +1,7 @@
 const user = require("../modals/user.modal");
 const urlModal = require("../modals/url.modal")
 async function HandleSignup(req, res) {
-  const allUrls=await urlModal.find({})
+  // const allUrls=await urlModal.find({})
   const { userName, email, password } = req.body;
   if (userName == null || email == null) {
     res.send("Please provide all the details");
@@ -17,7 +17,7 @@ async function HandleSignup(req, res) {
     password: password,
   });
   if(createduser){
-    return res.render("home",{allUrls});
+    return res.render("login");
   }
 }
 module.exports = { HandleSignup };

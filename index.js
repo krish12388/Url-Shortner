@@ -1,5 +1,6 @@
 const express = require("express");
-
+const {restrictLoginUserOnly} = require("./middleware/authmiddleware");
+const cookieParser = require("cookie-parser");
 const path = require("path");
 const userRoute = require("./routes/userRoute");
 const urlRoute = require("./routes/url");
@@ -15,7 +16,8 @@ mongoose
   .catch((err) => console.log(err));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use("/url", urlRoute);
+app.use(cookieParser());
+app.use("/url",restrictLoginUserOnly, urlRoute);
 app.use("/", staticRouter);
 app.use("/user", userRoute);
 app.use("/login",(req,res)=>{
@@ -24,11 +26,6 @@ app.use("/login",(req,res)=>{
 app.use("/signup",(req,res)=>{
   res.render("signup")
 })
-// app.get("/test", async (req, res) => {
-//   const allUrls = await urlModal.find({});
-//   res.render("home", { allUrls });
-// });
-//server side rendering =>{ejs,pug,handlebars}
 
 app.listen(3000, () =>
   console.log("Server is running on port http://localhost:3000")

@@ -13,6 +13,7 @@ const HandleurlCreate=async (req, res) => {
       shorturl: shortId,
       redirectUrl: originalUrl,
       visithistory: [],
+      createdBy:req.user._id
     });
     const result = "http://localhost:3000/url/" + shortId;
     return res
