@@ -1,5 +1,5 @@
 const express = require("express");
-const {restrictLoginUserOnly} = require("./middleware/authmiddleware");
+const {restrictLoginUserOnly,checkAuth} = require("./middleware/authmiddleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const userRoute = require("./routes/userRoute");
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/url",restrictLoginUserOnly, urlRoute);
-app.use("/", staticRouter);
+app.use("/", checkAuth,staticRouter);
 app.use("/user", userRoute);
 app.use("/login",(req,res)=>{
   res.render("login")
