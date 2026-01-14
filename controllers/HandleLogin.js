@@ -10,11 +10,9 @@ async function HandleLogin(req, res) {
   }
   const createdUser = await users.findOne({ email, password }); 
   if (createdUser) {
-    const allUrls = await urlModal.find({ createdBy:createdUser._id });
-    const sessionId = uuidv4(); 
-    setUserSession(sessionId, createdUser);
-    res.cookie("cookie", sessionId);
-    console.log(sessionId);
+    const allUrls = await urlModal.find({ createdBy:createdUser._id }); 
+    const token = setUserSession(createdUser);
+    res.cookie("cookie", token);
     return res.render("home", { allUrls });
   }
   return res.render("login");

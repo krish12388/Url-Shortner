@@ -1,13 +1,18 @@
 const express = require("express");
-const {restrictLoginUserOnly,checkAuth} = require("./middleware/authmiddleware");
+const {
+  restrictLoginUserOnly,
+  checkAuth,
+} = require("./middleware/authmiddleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const userRoute = require("./routes/userRoute");
 const urlRoute = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
-const urlModal = require("./modals/url.modal");
 const mongoose = require("mongoose");
+
+
 const app = express();
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "views"));
 mongoose
@@ -17,15 +22,17 @@ mongoose
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/url",restrictLoginUserOnly, urlRoute);
-app.use("/", checkAuth,staticRouter);
+
+ 
+app.use("/", checkAuth, staticRouter);
+app.use("/url", restrictLoginUserOnly, urlRoute);
 app.use("/user", userRoute);
-app.use("/login",(req,res)=>{
-  res.render("login")
-})
-app.use("/signup",(req,res)=>{
-  res.render("signup")
-})
+app.use("/login", (req, res) => {
+  res.render("login");
+});
+app.use("/signup", (req, res) => {
+  res.render("signup");
+});
 
 app.listen(3000, () =>
   console.log("Server is running on port http://localhost:3000")
