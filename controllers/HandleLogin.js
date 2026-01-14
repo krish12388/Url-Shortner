@@ -8,10 +8,10 @@ async function HandleLogin(req, res) {
     res.send("Please provide all the details");
     return;
   }
-  const createdUser = await users.findOne({ email, password }); 
-  if (createdUser) {
-    const allUrls = await urlModal.find({ createdBy:createdUser._id }); 
-    const token = setUserSession(createdUser);
+  const existingUser = await users.findOne({ email, password }); 
+  if (existingUser) {
+    const allUrls = await urlModal.find({ createdBy:existingUser._id }); 
+    const token = setUserSession(existingUser);
     res.cookie("cookie", token);
     return res.render("home", { allUrls });
   }
