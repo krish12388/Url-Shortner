@@ -1,7 +1,7 @@
 const express = require("express");
 const {
-  restrictLoginUserOnly,
   checkAuth,
+  restrictTo
 } = require("./middleware/authmiddleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -22,10 +22,10 @@ mongoose
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(checkAuth)
  
-app.use("/", checkAuth, staticRouter);
-app.use("/url", restrictLoginUserOnly, urlRoute);
+app.use("/",  staticRouter);
+app.use("/url", restrictTo(["normal"]), urlRoute);
 app.use("/user", userRoute);
 app.use("/login", (req, res) => {
   res.render("login");

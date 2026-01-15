@@ -10,11 +10,14 @@ async function HandleLogin(req, res) {
   }
   const existingUser = await users.findOne({ email, password });
   if (existingUser) {
+    
     const token = setUserSession(existingUser);
-    res.json({ token });
+    res.cookie("token", token);
+    
     res.redirect("/url");
     return;
+    
   }
-  return res.render("login");
+  else {return res.render("login");}
 }
 module.exports = { HandleLogin };

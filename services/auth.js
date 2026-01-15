@@ -4,7 +4,8 @@ function setUserSession( user) {
     const payload={
         id:user._id,
         email:user.email,
-        name:user.userName
+        name:user.userName,
+        role:user.role
     }
     const token=jwt.sign(payload,secretKey)
     return token;
@@ -19,7 +20,4 @@ function getUserSession(token) {
         return null;
     }
 }
-function removeUserSession(sessionId) {
-    
-}
-module.exports={setUserSession,getUserSession,removeUserSession}
+module.exports={setUserSession,getUserSession}
