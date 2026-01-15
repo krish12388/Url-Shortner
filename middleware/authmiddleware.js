@@ -7,25 +7,22 @@ function checkAuth(req, res, next) {
     next();
     return;
   }
-  const token = tokenCookie
+  const token = tokenCookie;
   const user = getUserSession(tokenCookie);
   req.user = user;
   next();
 }
-function restrictTo(roles){
+function restrictTo(roles) {
   return (req, res, next) => {
-    console.log(req.user);
-    
     if (!req.user) {
       return res.redirect("/login");
     }
     if (!roles.includes(req.user.role)) {
       return res.end("unauthorised");
     }
-    console.log(roles.includes(req.user.role));
-    
+
     next();
   };
 }
 
-module.exports = { checkAuth,restrictTo };
+module.exports = { checkAuth, restrictTo };
