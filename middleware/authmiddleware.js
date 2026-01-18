@@ -7,7 +7,6 @@ function checkAuth(req, res, next) {
     next();
     return;
   }
-  const token = tokenCookie;
   const user = getUserSession(tokenCookie);
   req.user = user;
   next();
