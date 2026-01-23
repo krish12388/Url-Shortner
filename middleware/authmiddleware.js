@@ -1,7 +1,6 @@
 const { getUserSession } = require("../services/auth");
 function checkAuth(req, res, next) {
   const tokenCookie = req.cookies?.token;
-  console.log(tokenCookie);
   if (!tokenCookie) {
     req.user = null;
     next();
